@@ -16,7 +16,15 @@ Desde el entretenimiento digital se pueden aplicar el uso de sistemas interactiv
 ### ¿Qué es el diseño/arte generativo?
 El arte generativo se refiere a cualquier práctica artística en la que el artista utiliza un sistema, como un conjunto de reglas de lenguaje natural, un programa informático, una máquina u otra invención procedimental, que se pone en marcha con cierto grado de autonomía, contribuyendo así a una obra de arte completa o dando como resultado una obra de arte completa.
 
-
-
 ### ¿Cómo podrías aplicar lo que has visto en tu perfil profesional?
 
+
+
+## Actividad 3
+
+
+### En este sistemas físico interactivo identifica los inputs, outputs y el proceso.
+
+Por parte de los inputs se pueden identificar los botones del micro:bit, el sensor de movimiento, 
+
+Outputs: LEDs
