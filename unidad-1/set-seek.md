@@ -2,7 +2,7 @@
 
 ## 🔎 Fase: Set + Seek
 
-## Activvidad 1
+## Actividad 1
 ### ¿Que es un sistema físico interactivo?
 
 Es un sistema que se podría decir que es una especie de sistema hibíbrido, puesto que este hace uso de componentes físicos de entrada (por ejemplo sensores, dispositivos electrónicos, entre muchos otros) y los combina con el software de una computadora y un sistema, permitiendo que el usuario o un entorno interactue mediante los estímulos para poder así, generar una experiencia en donde el usuario se vea implicado de mayor forma en lo que ocurre dentro del sistema.
@@ -43,7 +43,6 @@ let col1, col2;
 function setup() {
   createCanvas(400, 400);
   background(20);
-  noFill();
   strokeWeight(2);
 
   generarFunciones();
