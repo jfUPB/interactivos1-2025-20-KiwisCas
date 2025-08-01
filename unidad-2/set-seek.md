@@ -158,19 +158,19 @@ def update_traffic_light():
     if current_state == RED:
         clear_all()
         display.set_pixel(red_pos[0],red_pos[1], 9)
-        if elapsed >= 5000:
+        if elapsed >= 5000: # Si pasan más de 5 segundos, cambia de estado a "GREEN"
             current_state = GREEN
             start_time = utime.ticks_ms()
     elif current_state == GREEN:
         clear_all()
         display.set_pixel(green_pos[0],green_pos[1], 9)
-        if elapsed >= 3000:
+        if elapsed >= 3000:# Si pasan más de 3 segundos, cambia de estado a "YELLOW"
             current_state = YELLOW
             start_time = utime.ticks_ms()
     elif current_state == YELLOW:
         clear_all()
         display.set_pixel(yellow_pos[0], yellow_pos[1], 9)
-        if elapsed >= 1000:
+        if elapsed >= 1000: # Si pasa más de 1 segundo, cambia de estado a "RED"
             current_state = RED
             start_time = utime.ticks_ms()
 
@@ -179,3 +179,21 @@ while True:
     sleep(100)
             
 ```
+#### Estados
+
+- `RED`: Es el estado en donde el led que corresponde a la posición roja se enciende.
+- `YELLOW`: Es el estado en donde el led que corresponde a la posición amarilla se enciende.
+- `GREEN`: Es el estado en donde el led que corresponde a la posición verde se enciende.
+
+
+#### Eventos
+
+- Ocurren según paso del tiempo dado por (`elapsed`) dependiendo de los estados:
+  - Rojo: 5 segundos.
+  - Amarillo: 1 segundo.
+  - Verde: 3 segundos.
+ 
+#### Acciones
+- Enciende el led correspondiente.
+- Apaga los demás LEDs.
+- Cambia al siguiente estado del semáforo.
