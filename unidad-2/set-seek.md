@@ -197,3 +197,82 @@ while True:
 - Enciende el led correspondiente.
 - Apaga los demás LEDs.
 - Cambia al siguiente estado del semáforo.
+
+
+### Actividad 3
+
+
+```py
+from microbit import *
+import utime
+
+STATE_INIT = 0
+STATE_HAPPY = 1
+STATE_SMILE = 2
+STATE_SAD = 3
+
+currentState = STATE_INIT
+HAPPY_INTERVAL = 1500
+SMILE_INTERVAL = 1000
+SAD_INTERVAL = 2000
+
+
+startTime = 0
+interval = 0
+
+
+def tarea1():
+    global currentState
+    global startTime
+    global interval
+    if currentState == STATE_INIT:
+        display.show(Image.HAPPY)
+        startTime = utime.ticks_ms()
+        interval = HAPPY_INTERVAL
+        currentState = STATE_HAPPY
+    elif currentState == STATE_HAPPY:
+        if button_a.was_pressed():
+            display.show(Image.SAD)
+            startTime = utime.ticks_ms()
+            interval = SAD_INTERVAL
+            currentState = STATE_SAD
+        if utime.ticks_diff(utime.ticks_ms(), startTime) > interval:
+            display.show(Image.SMILE)
+            startTime = utime.ticks_ms()
+            interval = SMILE_INTERVAL
+            currentState = STATE_SMILE         
+    elif currentState == STATE_SMILE:
+        if button_a.was_pressed():
+            display.show(Image.HAPPY)
+            startTime = utime.ticks_ms()
+            interval = HAPPY_INTERVAL
+            currentState = STATE_HAPPY
+        if utime.ticks_diff(utime.ticks_ms(), startTime) > interval:
+            display.show(Image.SAD)
+            startTime = utime.ticks_ms()
+            interval = SAD_INTERVAL
+            currentState = STATE_SAD
+    elif currentState == STATE_SAD:
+        if button_a.was_pressed():
+            display.show(Image.SMILE)
+            startTime = utime.ticks_ms()
+            interval = SMILE_INTERVAL
+            currentState = STATE_SMILE
+        if utime.ticks_diff(utime.ticks_ms(), startTime) > interval:
+            display.show(Image.HAPPY)
+            startTime = utime.ticks_ms()
+            interval = HAPPY_INTERVAL
+            currentState = STATE_HAPPY
+    else:
+        display.show(Image.PACMAN)
+
+while True:
+    tarea1()
+```
+
+estado inicial, happy, smile y sad
+
+eventos: evento relacionado con el paso del tiempo que se da con la variable startTime y evento que da lugar cuando se presiona el botón A y que depende del estado de currentState
+
+
+
