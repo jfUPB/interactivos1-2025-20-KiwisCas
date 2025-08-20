@@ -59,6 +59,24 @@ while True:
 # Actividad 5
 ![Actividad5](https://github.com/user-attachments/assets/45a3c12e-3f43-40d0-9ff7-367a5a95a78c)
 
+## Tabla de vectores de prueba
+
+| Estado inicial                  | Evento disparador     | Acciones                                                    | Estado final                          |
+|---------------------------------|-----------------------|-------------------------------------------------------------|---------------------------------------|
+| CONFIG (count=20)               | Evento A              | Incrementa count (+1, máx. 60), muestra en display          | CONFIG (count=21)                      |
+| CONFIG (count=20)               | Evento B              | Decrementa count (-1, mín. 10), muestra en display          | CONFIG (count=19)                      |
+| CONFIG                          | Evento S              | startTime=ahora, cambia a ARMED                             | ARMED (count inicia en valor configurado) |
+| ARMED (count=5)                 | Tick 1s (tiempo)      | Decrementa count y muestra en el display el numero 4        | ARMED (count=4)                        |
+| ARMED (count=1)                 | Tick 1s (tiempo)      | Decrementa count a 0, muestra SKULL                         | EXPLODED                               |
+| ARMED (esperando clave)         | Evento A              | Guarda 'A' en key, avanza keyindex                          | ARMED (keyindex+1)                     |
+| ARMED (esperando clave)         | Evento B              | Guarda 'B' en key, avanza keyindex                          | ARMED (keyindex+1)                     |
+| ARMED (keyindex == len(PASSWORD)) | Condición interna     | Compara clave con PASSWORD y es correcta                    | CONFIG (count=20, keyindex=0)          |
+| ARMED (keyindex == len(PASSWORD)) | Condición interna     | Compara clave con PASSWORD y es incorrecta                  | ARMED (keyindex=0)                     |
+| EXPLODED                        | Evento T              | Reinicia count=20, startTime=utime.ticks_ms(), muestra count  | CONFIG                                 |
+
+
+
+
 
 
 
