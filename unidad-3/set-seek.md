@@ -56,5 +56,10 @@ while True:
     semaforo3.update()
 
 ```
+# Actividad 5
+![Actividad5](https://github.com/user-attachments/assets/45a3c12e-3f43-40d0-9ff7-367a5a95a78c)
+
+
+
 
 
