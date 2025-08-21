@@ -5,6 +5,8 @@
 
 ### Actividad 6 y 7
 
+En caso de acceder al código en p5.js accede al siguiente [Link](https://editor.p5js.org/KiwisCas/sketches/rQRvK4rBB)
+
 #### Código Bomba 3.0 en p5.js con conexión a micro:bit 
 
 ```js
@@ -162,3 +164,4 @@ while True:
         display.show(Image.HAPPY)
         sleep(200)
 ```
+
