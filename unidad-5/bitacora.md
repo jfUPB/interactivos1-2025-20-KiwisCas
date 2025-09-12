@@ -1,7 +1,7 @@
 
 # Evidencias de la unidad 5
 
-## Set-Seek
+## Set
 
 ### Preguntas caso de estudio
 
@@ -43,3 +43,14 @@ Lo que hacen estas funciones es que convierten lo recibido en las dos ultimas se
 Este proceso se realiza 
 - Capturas de pantalla de los algunos dibujos que hayas hecho con el sketch.
 <img width="872" height="817" alt="20250910_170503" src="https://github.com/user-attachments/assets/af3a0988-d527-4f7e-9de1-323bd3a11855" />
+
+
+## Seek
+
+### Captura de Aplicación de conexción serial cuando micro:bit envía datos de tipo binario
+
+<img width="985" height="172" alt="image" src="https://github.com/user-attachments/assets/7ea76a78-5bf4-49c3-b915-3c1e2acb73db" />
+
+Analicemos este caso, como se puede observar en la imagen, cuandoi se pone el la forma en la que se ven los datos como modo texto se puede observar una secuencia de caracteres sin sentido esto ocurre debido a que los datos están siendo enviados directamente como una secuencia de `bytes` que respresentan valores entre 0 y 255, hay que entender que cuando se leen archivos a modo de texto este tipo de codificación posee una codificación estandar que suele ser en formatos como `UTF-8`, `ASCII`, `ISO-8859-1` y asi sucesivamente, lo que pasa cuando se intentan leer envíos de datos binarios y se intentan traducir a formato de texto es que el sistema intentará codificar los bytes como si estos representaran caracteres válidos según el tipo de codificación pero en este caso muchos bytes no representan caracteres válidos por lo que simplemente se observarán caracteres extraños como se ve en el ejemplo
+
+
