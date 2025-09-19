@@ -581,14 +581,7 @@ function connectBtnClick(mode = 'emu') {
 
 ## Adicional: Funcionamiento de aplicación de puertos seriales para simular el micro:bit 
 
-**Bitácora de desarrollo – Simulación de comunicación serial (Node.js + VSCode)**
-
-**Contexto**
-Esta bitácora describe el proceso de evolución de un programa en Node.js que se ejecuta en Visual Studio Code y que tiene como finalidad simular el envío de datos de un micro\:bit a través de comunicación serial. El objetivo era lograr que la aplicación pudiera enviar la misma estructura de datos que manda un micro\:bit real (usando el formato binario `>2h2B` más un *checksum*), en lugar de solo enviar texto plano.
-
----
-
-### Versión inicial (código 1)
+### Versión inicial (código proporcionado por el profesor para anterior actividad)
 
 En la primera versión, el programa proporcionado por el profesor funcionaba de la siguiente manera:
 
@@ -772,6 +765,7 @@ Esto va a hacer que el programa ahora funcione enviando datos en el siguiente fo
 **Para hacer que el programa funcione (tanto el proporcionado por el profesor como el nuevo), es necesario realizar un cambio en la configuración de la bios, habilitando el `Secure Boot` e instalando dependencias que el programa requiere, hazlo bajo tu responsabilidad**
 
 ---
+
 
 
 
