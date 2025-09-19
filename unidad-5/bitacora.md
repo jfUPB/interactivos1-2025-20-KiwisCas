@@ -1,8 +1,6 @@
 
 # Evidencias de la Unidad 5
 
----
-
 ## Set
 
 ### Preguntas caso de estudio
@@ -765,6 +763,128 @@ Esto va a hacer que el programa ahora funcione enviando datos en el siguiente fo
 **Para hacer que el programa funcione (tanto el proporcionado por el profesor como el nuevo), es necesario realizar un cambio en la configuración de la bios, habilitando el `Secure Boot` e instalando dependencias que el programa requiere, hazlo bajo tu responsabilidad**
 
 ---
+
+
+## Reflect 
+
+### Comparación entre protocolo ASCII y protocolo binario
+
+| Aspecto              | Protocolo ASCII                                                                                 | Protocolo Binario                                                                                |
+| -------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| **Eficiencia**       | Menos eficiente: los números se envían como texto (ejemplo: `"162,-162,1,0\n"` ocupa 12 bytes). | Más eficiente: los datos se envían en bytes crudos (ejemplo: `xf=162` ocupa 2 bytes).            |
+| **Velocidad**        | Más lento: al ocupar más bytes, la transmisión tarda más.                                       | Más rápido: menos bytes por paquete, menor latencia.                                             |
+| **Facilidad**        | Fácil de interpretar: basta con abrir un monitor serial y leer números y comas.                 | Más difícil: los datos no son legibles directamente, se necesitan funciones para interpretarlos. |
+| **Uso de recursos**  | Mayor consumo de ancho de banda y almacenamiento.                                               | Menor consumo: cada paquete ocupa exactamente 8 bytes (64 bits).                                 |
+| **Ejemplo concreto** | En la app Node.js, antes se mandaba `"200,100,1,0\n"`.                                          | Ahora se manda `[0xAA][00 C8][00 64][01][00][checksum]`.                                         |
+
+---
+
+### Preguntas de reflexión
+
+**¿Por qué fue necesario introducir *framing* en el protocolo binario?**
+Porque en binario no hay separadores visibles como las comas en ASCII. El *framing* permite marcar dónde empieza y termina un paquete, evitando que los datos se mezclen.
+
+**¿Cómo funciona el framing?**
+Se define un **header** fijo (en este caso `0xAA`) al inicio de cada paquete. El receptor busca este valor para saber que empieza un nuevo bloque de datos.
+
+**¿Qué es un carácter de sincronización?**
+Es un byte especial (aquí `0xAA`) que indica el inicio de un paquete. Sirve para sincronizar la comunicación entre transmisor y receptor.
+
+**¿Qué es el checksum y para qué sirve?**
+Es un valor calculado a partir de la suma de todos los bytes del paquete (excepto el header). Permite al receptor verificar que los datos no se dañaron en la transmisión.
+
+---
+
+### Sobre la función `readSerialData()`
+
+**¿Qué hace la función concat? ¿Por qué?**
+`concat` agrega los nuevos bytes recibidos (`newData`) al final del `serialBuffer`. Así se construye una cola con los datos que van llegando.
+
+```js
+serialBuffer = serialBuffer.concat(newData);
+```
+
+---
+
+**¿Por qué se recorre el buffer solo si tiene 8 o más bytes?**
+Porque el paquete binario completo mide 8 bytes. Si hay menos, no se puede interpretar un paquete completo.
+
+---
+
+**¿Qué significa `0xAA`?**
+Es el valor hexadecimal que usamos como **header** o marcador de inicio del paquete.
+
+---
+
+**¿Qué hace `shift` y `continue`? ¿Por qué?**
+
+* `shift()` elimina el primer byte del buffer.
+* `continue` salta a la siguiente iteración del bucle.
+  Esto se usa cuando el primer byte no es `0xAA`: se descarta y se sigue buscando el header correcto.
+
+---
+
+**¿Qué hace `break` si hay menos de 8 bytes? ¿Por qué?**
+Detiene el bucle. Esto evita procesar datos incompletos. El programa espera hasta que lleguen más bytes.
+
+---
+
+**¿Cuál es la diferencia entre `slice` y `splice`? ¿Por qué se usan juntos?**
+
+* `slice(0,8)` → extrae una copia de los primeros 8 bytes sin modificar el buffer.
+* `splice(0,8)` → elimina esos mismos bytes del buffer.
+  Se usan juntos para **copiar el paquete** y después **eliminarlo del buffer**.
+
+---
+
+**¿Cómo opera `reduce` en el cálculo del checksum?**
+Suma todos los bytes de `dataBytes` uno por uno:
+
+```js
+let computedChecksum = dataBytes.reduce((acc, val) => acc + val, 0) % 256;
+```
+
+* `acc` es el acumulador.
+* `val` es el valor actual.
+  El resultado se reduce módulo 256 para que siempre quepa en un byte.
+
+---
+
+**¿Por qué se compara el checksum enviado con el calculado?**
+Para verificar la integridad del paquete. Si no coinciden, significa que los datos se corrompieron y deben descartarse.
+
+---
+
+**¿Qué hace la instrucción `continue` en ese caso?**
+Descarta el paquete actual y vuelve al inicio del bucle, esperando el próximo header válido.
+
+---
+
+**¿Qué es un DataView? ¿Para qué se usa?**
+Es una forma de leer bytes crudos de un `ArrayBuffer` en diferentes formatos (enteros de 8/16/32 bits, con o sin signo, big-endian o little-endian).
+
+---
+
+**¿Por qué es necesario usar DataView y no leer directamente el buffer?**
+Porque necesitamos interpretar los bytes en su **formato correcto**:
+
+* `getInt16(0, false)` → lee 2 bytes como entero con signo en big-endian.
+* `getUint8(4)` → lee 1 byte como entero sin signo.
+
+Si leyéramos los bytes tal cual, solo tendríamos valores entre `0–255`, y perderíamos la representación de números negativos o multi-byte.
+
+Ejemplo:
+
+```js
+microBitX = view.getInt16(0, false) + windowWidth / 2;
+microBitY = view.getInt16(2, false) + windowHeight / 2;
+microBitAState = view.getUint8(4) === 1;
+microBitBState = view.getUint8(5) === 1;
+```
+
+---
+
+
 
 
 
