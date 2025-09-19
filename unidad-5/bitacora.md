@@ -576,6 +576,9 @@ function connectBtnClick(mode = 'emu') {
   }
 }
 ```
+## Video demostración del funcionamiento
+
+https://github.com/user-attachments/assets/ffed3de8-e343-48a2-933d-ada5a8a9e92d
 
 ## Adicional: Funcionamiento de aplicación de puertos seriales para simular el micro:bit 
 
@@ -795,6 +798,10 @@ Es un valor calculado a partir de la suma de todos los bytes del paquete (except
 
 ---
 
+
+
+
+
 ### Sobre la función `readSerialData()`
 
 **¿Qué hace la función concat? ¿Por qué?**
@@ -884,6 +891,18 @@ microBitBState = view.getUint8(5) === 1;
 
 ---
 
+## Autoevaluación 
+
+
+| Criterio                                       | Calificación  | Justificación                                                                                                                                                                                              |
+| ---------------------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **1. Profundidad de la indagación**            | **4.8 / 5.0** | Hice comparaciones entre ASCII y binario, revisé ventajas y desventajas, expliqué *framing* y *checksum* y cuestioné en qué contextos sería mejor usar un protocolo u otro. Creo que no me quedé solo en describir. |
+| **2. Calidad de la experimentación**           | **4.9 / 5.0** | Probé el sistema primero sin framing, identifiqué errores de sincronización, añadí header y checksum y mostré que la forma en la que se corregía el problema. Considero que el desarrollo de los experimentos fueron claros y directos.                  |
+| **3. Análisis y reflexión**                    | **4.3 / 5.0** | Analicé resultados con capturas y ejemplos, pero considero que me centré más en explicar qué pasó que en construir un modelo conceptual más completo. Ahí podría mejorar.                                                 |
+| **4. Apropiación y articulación de conceptos** | **4.7 / 5.0** | Expliqué y apliqué conceptos técnicos (*framing*, *checksum*, *complemento a dos*, `struct.pack`, *DataView*) y mostré cómo se conectan para que el protocolo funcione bien.                               |
+
+**Calificación general: 4.7 / 5.0**
+Cumplí con la parte técnica y experimental, pero creería que todavía me hace falta profundizar más en la reflexión conceptual.
 
 
 
