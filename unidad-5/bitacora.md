@@ -1,11 +1,11 @@
 
-# 📘 Evidencias de la Unidad 5
+# Evidencias de la Unidad 5
 
 ---
 
-## 🔹 Set
+## Set
 
-### 📌 Preguntas caso de estudio
+### Preguntas caso de estudio
 
 #### 1. Describe cómo se están comunicando el micro\:bit y el sketch de p5.js. ¿Qué datos envía el micro\:bit?
 
@@ -19,15 +19,13 @@ El **micro\:bit** y el sketch de **p5.js** establecen comunicación a través de
 3. En p5.js, tras abrir el puerto serial, se reciben los datos como texto.
 4. Mediante funciones de limpieza (`trim`) y separación (`split`), los datos se fragmentan en partes y se asignan a variables individuales (`microBitX`, `microBitY`, `microBitAState`, `microBitBState`).
 
-En conclusión, el micro\:bit envía en **formato ASCII** valores del acelerómetro y estados de los botones, que p5.js procesa para utilizarlos en la lógica gráfica.
-
 ---
 
 #### 2. ¿Cómo es la estructura del protocolo ASCII usado?
 
 El mensaje enviado sigue la siguiente estructura:
 
-```
+```mathematica
 xValue,yValue,aState,bState\n
 ```
 
@@ -37,7 +35,7 @@ xValue,yValue,aState,bState\n
 
 Ejemplo en memoria:
 
-```
+```mathematica
 "450,-320,True,False\n"
 ```
 
@@ -104,9 +102,9 @@ El truco está en la comparación con `"true"` y la conversión a minúscula par
 
 ---
 
-## 🔹 Seek
+## Seek
 
-### 📌 Captura de aplicación de conexión serial con datos binarios
+### Captura de aplicación de conexión serial con datos binarios
 
 Cuando se pasa de enviar datos en **ASCII** a **binario**, el monitor serial en modo texto muestra caracteres extraños:
 
@@ -125,7 +123,7 @@ Los datos se muestran **exactamente como fueron enviados**: secuencias de bytes 
 
 ---
 
-### 📌 Empaquetado con `struct.pack`
+### Empaquetado con `struct.pack`
 
 Código en MicroPython:
 
@@ -148,13 +146,13 @@ Por lo tanto, cada paquete ocupa exactamente **6 bytes**:
 
 Ejemplo de paquete:
 
-```
+```mathematica
 ff d8 00 98 01 00
 ```
 
 ---
 
-### 📌 Ejemplo modificado con gesto *shake*
+### Ejemplo modificado con gesto *shake*
 
 ```py
 from microbit import *
@@ -176,7 +174,7 @@ Ahora, el micro\:bit envía datos únicamente cuando detecta la acción de **agi
 
 ---
 
-### 📌 Representación de números negativos con complemento a dos
+### Representación de números negativos con complemento a dos
 
 El formato `h` usa **16 bits con signo** y representación en **complemento a dos**.
 
@@ -197,14 +195,14 @@ El formato `h` usa **16 bits con signo** y representación en **complemento a do
 
 Por lo tanto, en `>2h2B`:
 
-```
+```mathematica
 2020,2020,0,0 → 07 E4 07 E4 00 00
 -2020,-2020,0,0 → F8 1C F8 1C 00 00
 ```
 
 ---
 
-### 📌 Comparación Binario vs ASCII
+### Comparación Binario vs ASCII
 
 | Característica        | ASCII                               | Binario                             |
 | --------------------- | ----------------------------------- | ----------------------------------- |
@@ -221,24 +219,14 @@ Ejemplo:
 
 ---
 
-### 📌 Evidencias gráficas
-
- <img width="1919" height="949" alt="image" src="https://github.com/user-attachments/assets/c0a79e7d-d89b-44d8-b23e-6df997281f1d" />  
- <img width="1919" height="894" alt="image" src="https://github.com/user-attachments/assets/0b1413ee-8c4f-4e8e-9256-fed58891ebb8" />  
- <img width="1919" height="849" alt="image" src="https://github.com/user-attachments/assets/12f7c302-b709-4183-b822-5c5a8886a84d" />  
-   
- <img width="1919" height="893" alt="image" src="https://github.com/user-attachments/assets/f7a602bf-0fc8-49dd-88f2-c7dead237e38" />  
-
----
-
-### 📝 Actividad 03
+### Actividad 03
 
 **Caso de estudio: p5.js**
 Tema central: Modificación del código de micro\:bit y p5.js para soportar lectura de datos en **formato binario con framing y verificación de integridad**.
 
 ---
 
-### 🔎 Explicación inicial
+### Explicación inicial
 
 En la **unidad anterior**, el micro\:bit enviaba datos serializados en formato ASCII y separados por delimitadores (comas, espacios o saltos de línea). Esto se debía a que el tamaño del paquete no estaba predefinido:
 
@@ -257,7 +245,7 @@ Esto elimina la necesidad de delimitadores, porque el receptor ya sabe que cada 
 
 Ejemplo (big-endian):
 
-```
+```mathematica
 xValue = 500  →  01 f4
 yValue = 524  →  02 0c
 aState = 1    →  01
@@ -268,7 +256,7 @@ Paquete = 01 f4 02 0c 01 00
 
 ---
 
-### 🔧 Cambios en el código
+### Cambios en el código
 
 1. **Unidad anterior (ASCII + delimitadores):**
 
@@ -287,10 +275,12 @@ Paquete = 01 f4 02 0c 01 00
 3. **Problema detectado:**
    Al ejecutar varias veces, aparecen valores inconsistentes como:
 
-   ```
+   ```js
+   
    microBitX: 500 microBitY: 524 ...
-   microBitX: 500 microBitY: 513 ...
+   microBitX: 524 microBitY: 256 ...
    microBitX: 3073 microBitY: 1 ...
+   
    ```
 
    <img width="1919" height="849" alt="image" src="https://github.com/user-attachments/assets/12f7c302-b709-4183-b822-5c5a8886a84d" />
@@ -305,7 +295,7 @@ Paquete = 01 f4 02 0c 01 00
 
    Ahora el paquete tiene **8 bytes**:
 
-   ```
+   ```methematica
    [Header][xValue][yValue][aState][bState][Checksum]
    0xAA    01 f4   02 0c   01      00      ??
    ```
@@ -319,7 +309,7 @@ Paquete = 01 f4 02 0c 01 00
 
 ---
 
-### 🔬 Observaciones en consola
+###  Observaciones en consola
 
 1. **Antes del framing:**
 
@@ -333,7 +323,7 @@ Paquete = 01 f4 02 0c 01 00
    * La consola muestra datos estables y coherentes, incluso si se producen fragmentaciones en la transmisión.
    * Si llega un paquete corrupto, aparece un mensaje:
 
-     ```
+     ```js
      Checksum error in packet
      ```
      <img width="1919" height="785" alt="image" src="https://github.com/user-attachments/assets/bd33cd25-0d4e-4871-b151-e331119db2d9" />
@@ -347,14 +337,12 @@ Paquete = 01 f4 02 0c 01 00
 
 ---
 
-### 📝 Actividad 04
+### Actividad 04
 
-**Aplicación práctica del protocolo binario con framing y checksum**
-Tema central: Modificación de la aplicación de p5.js para que soporte el protocolo de datos binarios enviado por el micro\:bit, integrando header y checksum para asegurar sincronización e integridad.
-
+**Aplicación práctica del protocolo binario**
 ---
 
-### 🔎 Proceso de construcción
+### Proceso de construcción
 
 El trabajo inició a partir de la aplicación de la unidad anterior, que recibía datos en formato **ASCII** y dependía de delimitadores como comas y saltos de línea. Esa estrategia funcionaba, pero generaba sobrecarga y no era adecuada para una comunicación binaria.
 
@@ -381,7 +369,7 @@ Se plantearon varios pasos:
 
 ---
 
-### 🧪 Experimentos y dificultades
+### Experimentos y dificultades
 
 Durante la implementación surgieron varios problemas que permitieron reforzar la comprensión:
 
@@ -389,17 +377,35 @@ Durante la implementación surgieron varios problemas que permitieron reforzar l
    En las primeras pruebas, los valores del acelerómetro se mostraban como `3073`, `-123` o números fuera de rango. Esto ocurrió porque los 6 bytes del paquete llegaban desalineados, lo que confirmaba la necesidad de usar el header para recuperar sincronización.
 
 2. **Errores de checksum recurrentes:**
-   Durante la validación, algunos paquetes eran rechazados con mensajes de `"Checksum error"`. Al revisar, se detectó que ciertos bytes se perdían en la transmisión o quedaban mezclados entre paquetes. La estrategia de descartar paquetes inválidos y esperar al próximo header resolvió el problema.
+   Durante la validación, algunos paquetes eran rechazados con mensajes de `"Checksum error"`.
 
-3. **Interpretación de números negativos:**
-   Al inclinar el micro\:bit, algunos valores aparecían como números muy grandes en lugar de negativos. Esto llevó a verificar la forma en que `getInt16()` interpreta los enteros en **complemento a 2**. Una vez corregido el uso de big-endian, los valores negativos (ej. `-2020` representado como `f8 1c`) se mostraron correctamente.
+     <img width="2559" height="1029" alt="image" src="https://github.com/user-attachments/assets/70b8cbde-cb76-480e-8f05-a134e32e2b4b" />
 
-4. **Pérdida de sincronización temporal:**
+   Al revisar, se detectó que ciertos bytes se perdían en la transmisión o quedaban mezclados entre paquetes. La estrategia de descartar paquetes inválidos y esperar al próximo header resolvió el problema, por lo que al final, realizando cambios a la linea de código que presentaba el problema, se corrigió quedando de la siguiente forma
+
+   ```js
+   let computedChecksum = dataBytes.reduce((a, b) => a + b, 0) % 256;
+   ```
+
+4. **Interpretación de números negativos:**
+   Al inclinar el micro\:bit o hacer pruebas con el puerto de conexión serial algunos valores aparecían como números muy grandes en lugar de negativos.
+
+    <img width="2559" height="1031" alt="image" src="https://github.com/user-attachments/assets/772baee7-09d3-41eb-8762-d6284622ab74" />
+
+   Esto llevó a verificar la forma en que `getInt16()` interpreta los enteros en **complemento a 2**. Una vez corregido el uso de big-endian, los valores negativos (ej. `-2020` representado como `f8 1c`) se mostraron de una forma más aproximada, ya que luego se puede ver en la siguiente imagen que los datos que están siendo enviados y los que están siendo recibidos no son correctos tampoco :(
+
+   <img width="2559" height="1029" alt="image" src="https://github.com/user-attachments/assets/c1a22082-955b-4080-9f7c-8cbbf5bda206" />
+
+   Por lo que, habiendo descubierto esto, hay que entender que es correcto que en el log se vean datos erroneos, esto debido a que en el programa se están haciendo unos cálculos de más para que el programa dibuje adecuadamente en el canvas, si realizamos un pequeño cambio al código podemos observar que, efectimvamente los datos que están siendo enviados al programa por el programa de conexión serial y el micro:bit son correctos
+
+   <img width="2516" height="955" alt="image" src="https://github.com/user-attachments/assets/6db7d7a7-cfae-48c8-aa6c-0a13645e8036" />
+
+6. **Pérdida de sincronización temporal:**
    En ocasiones, al desconectar y reconectar, el sistema tardaba en recuperar la alineación de los paquetes. La solución fue limpiar el buffer al establecer conexión y dejar que el algoritmo buscara nuevamente el header.
 
 ---
 
-### 🔬 Observaciones finales
+### Observaciones finales
 
 * Con el sistema ASCII inicial, los datos eran fáciles de leer pero poco eficientes.
 * La transición a binario fijo de 6 bytes redujo el tamaño del paquete, pero expuso problemas de sincronización.
@@ -408,7 +414,7 @@ Durante la implementación surgieron varios problemas que permitieron reforzar l
 
 ---
 
-### 📌 Conclusión
+### Conclusión
 
 El desarrollo de esta actividad permitió comprender que, en comunicación serial:
 
@@ -420,9 +426,9 @@ En suma, la aplicación resultante es más **eficiente y robusta**, capaz de man
 
 ---
 
-### ✅ Código final (p5.js modificado)
+### Código final (p5.js modificado)
 
-```javascript
+```js
 'use strict';
 
 let port;
@@ -572,6 +578,206 @@ function connectBtnClick(mode = 'emu') {
   }
 }
 ```
+
+## Adicional: Funcionamiento de aplicación de puertos seriales para simular el micro:bit 
+
+**Bitácora de desarrollo – Simulación de comunicación serial (Node.js + VSCode)**
+
+**Contexto**
+Esta bitácora describe el proceso de evolución de un programa en Node.js que se ejecuta en Visual Studio Code y que tiene como finalidad simular el envío de datos de un micro\:bit a través de comunicación serial. El objetivo era lograr que la aplicación pudiera enviar la misma estructura de datos que manda un micro\:bit real (usando el formato binario `>2h2B` más un *checksum*), en lugar de solo enviar texto plano.
+
+---
+
+### Versión inicial (código 1)
+
+En la primera versión, el programa proporcionado por el profesor funcionaba de la siguiente manera:
+
+* Se usaba la librería `serialport` para abrir el puerto.
+* Con Express se montaba una API que permitía modificar manualmente los valores (`xf`, `yf`, `aState`, `bState`).
+* Cada cierto tiempo (dependiendo de la frecuencia indicada con `--hz`), se escribía en el puerto serial una línea de texto con el siguiente formato:
+
+```js
+xf,yf,aState,bState
+```
+
+Ejemplo:
+
+```js
+120,-45,True,False
+```
+
+**Ventaja:** era fácil de leer y de depurar en consola.
+**Desventaja:** no era compatible con el código del micro\:bit, que envía datos en binario, no en texto. Esto hacía que otro programa que esperara los paquetes originales no pudiera entender lo que estábamos mandando.
+
+---
+
+### Problemas detectados
+
+* **Incompatibilidad con micro\:bit real:** el micro\:bit utiliza un protocolo binario con enteros de 16 bits (acelerómetro) y 8 bits (botones).
+* **Ambigüedad en los datos:** al enviar texto, era más lento y se necesitaban separadores (comas, saltos de línea).
+* **Sin control de integridad:** no había *checksum*, por lo que no se podía detectar si algún byte se corrompía.
+
+---
+
+### Versión final (código 2)
+
+En la segunda versión, se corrigieron los puntos anteriores y el programa evolucionó de la siguiente manera:
+
+1. **Creación de buffer binario**
+   En vez de enviar texto plano, se construyó un `Buffer` de 6 bytes:
+
+   * `xf`: entero con signo de 16 bits (2 bytes).
+   * `yf`: entero con signo de 16 bits (2 bytes).
+   * `aState`: boolean convertido a 1 o 0, en un byte.
+   * `bState`: boolean convertido a 1 o 0, en un byte.
+
+   Ejemplo de código:
+
+   ```js
+   buf.writeInt16BE(sensorValues.xf, 0);
+   buf.writeInt16BE(sensorValues.yf, 2);
+   buf.writeUInt8(sensorValues.aState ? 1 : 0, 4);
+   buf.writeUInt8(sensorValues.bState ? 1 : 0, 5);
+   ```
+
+2. **Implementación de *checksum***
+   Se sumaron todos los bytes del `Buffer` y se calculó el módulo 256 para obtener un único byte de verificación.
+
+   ```js
+   let checksum = 0;
+   for (let i = 0; i < buf.length; i++) checksum = (checksum + buf[i]) & 0xFF;
+   ```
+
+3. **Estructura del paquete**
+   Finalmente, cada envío se componía de:
+
+   * **Header** fijo `0xAA` → indica el inicio de paquete.
+   * **Payload** (`xf`, `yf`, `aState`, `bState`) → 6 bytes en binario.
+   * **Checksum** (1 byte) → para validar la integridad.
+
+   ```js
+   const packet = Buffer.concat([Buffer.from([0xAA]), buf, Buffer.from([checksum])]);
+   port.write(packet);
+   ```
+
+---
+
+### Conclusiones
+
+* **De texto a binario:** pasamos de un sistema simple (texto plano) a un sistema robusto (binario estructurado).
+* **Compatibilidad:** ahora el programa manda exactamente los mismos paquetes que un micro\:bit real con Python (`struct.pack('>2h2B', ...)`).
+* **Fiabilidad:** el checksum nos permite verificar que los datos lleguen completos y sin errores.
+* **Próximo paso:** hacer pruebas con receptores reales o simuladores para verificar que los datos son interpretados correctamente.
+
+---
+
+### Código para lectura del programa en sistema binario en base a la actividad
+
+**Vamos a tomar de referencia [esta aplicación](https://github.com/juanferfranco/serialEmulator)**
+
+En el archivo de `emulator.js` vamos a cambiar lo que está dentro del archivo por el siguiente:
+
+```js
+const { SerialPort } = require('serialport');
+const express = require('express');
+const path = require('path');
+
+// ---- CLI: --port=COM10 --baud=115200 --hz=10
+const args = Object.fromEntries(process.argv.slice(2).map(s => {
+  const [k, v] = s.replace(/^--/, '').split('=');
+  return [k, v ?? true];
+}));
+
+const PORT = args.port || 'COM10';
+const BAUD = parseInt(args.baud || '115200', 10);
+const HZ   = parseFloat(args.hz   || '10'); // Hz → frecuencia de envío
+
+// Estado global
+let sensorValues = {
+  xf: 0,
+  yf: 0,
+  aState: true,
+  bState: false
+};
+
+// Servidor web
+const app = express();
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/api/values', (req, res) => res.json(sensorValues));
+
+app.post('/api/values', (req, res) => {
+  const { xf, yf, aState, bState } = req.body;
+  if (xf !== undefined) sensorValues.xf = Math.max(-1200, Math.min(1200, parseInt(xf)));
+  if (yf !== undefined) sensorValues.yf = Math.max(-1200, Math.min(1200, parseInt(yf)));
+  if (aState !== undefined) sensorValues.aState = Boolean(aState);
+  if (bState !== undefined) sensorValues.bState = Boolean(bState);
+  res.json(sensorValues);
+});
+
+app.listen(3000, () => {
+  console.log('[WEB] Interfaz en http://localhost:3000');
+});
+
+// Puerto serie
+const port = new SerialPort({ path: PORT, baudRate: BAUD });
+
+port.on('open', () => {
+  console.log(`[OK] Abierto ${PORT} @ ${BAUD} baud`);
+  const period = 1000 / HZ;
+
+  const timer = setInterval(() => {
+    // Crear buffer con el formato >2h2B
+    const buf = Buffer.alloc(6);
+    buf.writeInt16BE(sensorValues.xf, 0);      // xf en 2 bytes
+    buf.writeInt16BE(sensorValues.yf, 2);      // yf en 2 bytes
+    buf.writeUInt8(sensorValues.aState ? 1 : 0, 4); // aState en 1 byte
+    buf.writeUInt8(sensorValues.bState ? 1 : 0, 5); // bState en 1 byte
+
+    // Calcular checksum
+    let checksum = 0;
+    for (let i = 0; i < buf.length; i++) checksum = (checksum + buf[i]) & 0xFF;
+
+    // Paquete completo: header + payload + checksum
+    const packet = Buffer.concat([Buffer.from([0xAA]), buf, Buffer.from([checksum])]);
+
+    port.write(packet, err => {
+      if (err) console.error('[ERROR write]:', err.message);
+    });
+  }, period);
+
+  port.on('close', () => {
+    clearInterval(timer);
+    console.log('[INFO] Puerto cerrado.');
+  });
+});
+
+port.on('error', err => {
+  console.error('[ERROR serial]:', err.message);
+  process.exit(1);
+});
+
+```
+
+Esto va a hacer que el programa ahora funcione enviando datos en el siguiente formato:
+
+```mathematica
+[0xAA] [xfH] [xfL] [yfH] [yfL] [aState] [bState] [checksum]
+```
+---
+
+## NOTA
+
+**Para hacer que el programa funcione (tanto el proporcionado por el profesor como el nuevo), es necesario realizar un cambio en la configuración de la bios, habilitando el `Secure Boot` e instalando dependencias que el programa requiere, hazlo bajo tu responsabilidad**
+
+---
+
+
+
+
+
+
 
 
 
