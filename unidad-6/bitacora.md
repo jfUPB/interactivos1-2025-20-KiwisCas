@@ -16,7 +16,7 @@ up to date, audited 121 packages in 753ms
 
 found 0 vulnerabilities
 ```
-Esto significa que en ese momento se estaben revisando e instalando las dependencias del sistema que el proyecto necesita para funcionar. Si no se ejecutase este paso, el programa no podría funcionar ya que este carecería de las librarías necesarias para su correcto funcionamiento.
+Esto significa que en ese momento se estaben revisando e instalando las dependencias del sistema que el proyecto necesita para funcionar. Si no se ejecutase este paso, el programa no podría funcionar ya que este carecería de las librerías necesarias para su correcto funcionamiento.
 
 Luego de esto, se procede a ejecutar el comando de `npm start`. Pasados unos segundos, aparecen las siguientes lineas en la consola de gitBash
 
@@ -193,9 +193,11 @@ All clients are fully synced`
 Explicación
 - socket.emit envía el evento solo al cliente que originó el mensaje (el mismo socket).
   <img width="2501" height="885" alt="image" src="https://github.com/user-attachments/assets/61ca766e-b072-4f25-b697-40f3ea6632a9" />
-  Acá podemos ver que page2 no se actualiza puesto que socket.emit envía el evento solo al mismo socket emisor; no llega a los demás clientes. Para sincronizar la otra pestaña necesitas socket.broadcast.emit, que envía a todos excepto al emisor. Restaura a broadcast.emit.
+
+Acá podemos ver que page2 no se actualiza puesto que socket.emit envía el evento solo al mismo socket emisor; no llega a los demás clientes. Para sincronizar la otra pestaña se necesita socket.broadcast.emit, que envía a todos excepto al emisor. Restaura a broadcast.emit.
   
-- socket.broadcast.emit envía a “todos menos al emisor”. Para sincronizar con la otra pestaña necesitas broadcast.
+- socket.broadcast.emit envía a “todos menos al emisor”. Para sincronizar con la otra pestaña se necesita broadcast.
+  
   <img width="2042" height="870" alt="image" src="https://github.com/user-attachments/assets/98ceca00-9fb2-4a50-b747-865769f1ebcc" />
 
 ### Experimento 4 — Puerto del servidor (listen)
@@ -311,8 +313,52 @@ function drawCircleColor(x, y, c) {
 ```
 ## Actividad 5
 
+### Explicación de la idea
 
-https://github.com/user-attachments/assets/77d50dab-5368-4a9e-bfce-42a98791a379
+La idea principal es crear una interacción simple, visual y colaborativa que use la infraestructura existente de comunicación entre ventanas (socket.io). Cada ventana actúa como un agente que puede elegir un estado visual (una carita) y transmitir esa elección a todos los demás agentes conectados. Visualmente se presenta como un "semáforo" con tres estados (feliz, neutral, triste). El objetivo es que cuando un usuario cambia su estado en una ventana, todas las ventanas conectadas reflejen ese cambio simultáneamente, creando una experiencia compartida e inmediata.
 
+Por qué es interesante:
+- Es un ejemplo claro de sincronización en tiempo real entre múltiples clientes usando WebSockets.
+- Permite experimentar con la noción de origen/recepción: la ventana que originó el evento muestra "Enviaste" mientras las otras muestran "Recibiste", ayudando a la trazabilidad del evento.
+- Es fácil de extender (más estados, animaciones, historial, roles de usuario).
+
+### Arquitectura y flujo de eventos
+
+- Cliente (page1/page2):
+  - UI: tres botones con caritas.
+  - Lógica: al pulsar un botón, el cliente emite el evento `faceChange` con el identificador de la carita (`'happy'|'neutral'|'sad'`).
+  - También escucha el evento `faceChange` y actualiza el estado visual local (fondo y carita grande) cuando recibe el evento.
+
+- Servidor (`server.js`):
+  - Escucha `faceChange` desde cualquier socket.
+  - Reemite inmediatamente a todos los clientes con `io.emit('faceChange', { faceId, from: socket.id })`. Incluir `from` permite que los clientes distingan si el evento vino de sí mismos o de otro.
+
+Flujo simplificado:
+1. Usuario A pulsa el botón 😊 en `page1`.
+2. `page1.js` ejecuta socket.emit('faceChange', 'happy').
+3. `server.js` recibe el evento y hace io.emit('faceChange', { faceId: 'happy', from: '<socketIdA>' }).
+4. Todos los clientes conectados (incluido A) reciben `faceChange` y actualizan su UI.
+5. Cada cliente muestra texto: si `from === mySocketId` => "Enviaste 😊"; si no => "Recibiste 😊 de <id corto>".
+
+### Contrato (inputs/outputs)
+
+- Input (cliente -> servidor):
+  - Evento: `faceChange`
+  - Payload: string `faceId` ∈ {'happy','neutral','sad'}
+
+- Output (servidor -> clientes):
+  - Evento: `faceChange`
+  - Payload: { faceId: string, from: string }
+
+
+
+
+### Video de Prueba
+
+https://github.com/user-attachments/assets/484d16d6-e8b4-4b38-8adf-2f0f23e848f2
+
+### Link Archivos
+
+https://github.com/KiwisCas/Actividad-SFI?tab=readme-ov-file
 
 
