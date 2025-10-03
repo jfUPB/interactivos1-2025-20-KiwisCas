@@ -213,8 +213,49 @@ Pasos realizados:
 6) Probé http://localhost:3001/page1 y ahora si, la página responde como debe de ser.
    <img width="1228" height="913" alt="image" src="https://github.com/user-attachments/assets/58dce227-cbca-4c06-ac0d-b4b0635605c7" />
 
+Cuando se cambia const port = 3000 a 3001 y se ejecuta el servidor, Node hace server.listen(3001), lo que significa que el proceso se “adhiere” únicamente al puerto TCP 3001 del host (por eso la consola muestra algo como “listening on 3001”). En la web, la URL incluye host y puerto; http://localhost:3000/page1 intenta conectarse al puerto 3000, pero ahí no hay ningún proceso escuchando, así que falla (p. ej., ERR_CONNECTION_REFUSED). En cambio, http://localhost:3001/page1 sí funciona porque coincide con el puerto donde el servidor está escuchando. El punto es que la variable port define el punto de enlace de la aplicación, y listen solo atiende exactamente ese puerto; si el puerto en la URL no coincide, la conexión no puede establecerse.
 
 
+## Actividad 04 
+
+### Experimiento 1
+
+**Refresca la página page2.html. Cuando el servidor se cierra observa la consola del navegador. ¿Ves algún error relacionado con la conexión? ¿Qué indica?** 
+
+<img width="1254" height="916" alt="image" src="https://github.com/user-attachments/assets/d29fab4e-95f6-40ca-88f0-f08303027505" />
 
 
+Habiendo detenido el el servidor Node.js y actualizada la página, el cliente de Socket.IO ya no podrá contactar con el backend. En la imagen se pueden observar errores de red del intento de reconectar, como solicitudes GET al endpoint de polling de Socket.IO rechazadas con “net::ERR_CONNECTION_REFUSED” y fallos de establecimiento de WebSocket con el mismo motivo. Esto simplemente indica que el puerto 3000 ya no está atendiendo porque el proceso del servidor se detuvo. Además, por el código del servidor, aparecerá un mensaje del tipo “Disconnected from server” y el estado de sincronización pasará a no sincronizado. Es normal que el cliente de Socket.IO siga reintentando automáticamente la conexión con backoff mientras el servidor no esté disponible.
+
+
+**Vuelve a iniciar el servidor y refresca la página. ¿Desaparecen los errores?** 
+
+<img width="1262" height="892" alt="image" src="https://github.com/user-attachments/assets/d52295a0-b085-4064-b519-f0034aef17e8" />
+
+
+Cuando se vuelve a iniciar el servidor y se recarga la página, esos errores desaparecen y se ve de nuevo el mensaje de conexión exitosa y los eventos normales, como el estado de sincronización que volverá a cambiar cuando haya otra ventana conectada. Es más, incluso sin recargar, Socket.IO suele reconectar automáticamente al detectar que el servidor volvió a estar disponible, aunque recargar la página limpia el estado del cliente más rápido.
+
+### Experimento 2 
+
+<img width="2495" height="949" alt="image" src="https://github.com/user-attachments/assets/2f021ab0-86c4-4935-b40a-7ceb007a91ee" />
+
+
+**¿Qué pasó? ¿Por qué?** 
+
+Al comentar la línea que emite “win2update” dentro del listener de “connect”, tras reiniciar el servidor y refrescar page1.html y page2.html no hubo sincronización inicial: page1 no recibió el estado actual de page2 y el indicador de sincronización permaneció en “NOT SYNCED”. Esa emisión en “connect” funciona como el arranque o bootstrap de estado: en cuanto el cliente se conecta, anuncia su estado actual (currentPageData) e identifica al emisor (socket.id) para que el servidor o el otro cliente se alineen desde el primer instante. Al comentarla, el cliente deja de publicar su estado al conectarse, así que nadie tiene datos con los que inicializar la sincronización y el sistema queda “sin estado”
+
+### Experimento 3 
+
+Acá básicamente lo que ocurre es que al mover la ventana de page2, en la consola de page1 se debería de ver el evento de actualización correspondiente con el payload que emite page2 (su currentPageData y el socket.id del emisor). Esto ocurre porque cada cliente, al detectar un cambio, emite su estado por Socket.IO y el servidor lo reenvía al resto de sockets conectados; el cliente receptor registra el log y actualiza su UI para reflejar el nuevo estado, lo mismo debe de ocurrir al revés.
+
+Experimento 4 
+<img width="803" height="625" alt="image" src="https://github.com/user-attachments/assets/c6e8c8a9-eda3-4385-9385-89dee9813a68" />
+
+¿Qué puedes concluir y por qué? 
+
+Con este mensaje se puede ver que al esta parte de la función checkWindowPosition si se esta utilizando y se activa con el movimeinto de la pestaña o el cambiar el tamaño de esta.
+
+
+Experimento 5 
+Cambia el background(220) para que dependa de la distancia entre las ventanas. Puedes calcular la magnitud del resultingVector usando let distancia = resultingVector.mag(); y luego usa map() para convertir esa distancia a un valor de gris o color. background(map(distancia, 0, 1000, 255, 0)); (ajusta el rango 0-1000 según sea necesario). 
 
