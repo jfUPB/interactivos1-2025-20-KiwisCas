@@ -129,7 +129,46 @@ Ejemplos de uso en la vida real:
 - Chats en vivo (WhatsApp Web, Messenger).  
 - Videojuegos en línea.  
 - Herramientas colaborativas (Google Docs, Figma).  
-- Seguimiento en tiempo real (cursos online con puntero compartido).  
+- Seguimiento en tiempo real (cursos online con puntero compartido).
+
+
+## Actividad 3
+
+### Experimento 1 — Rutas y respuestas (app.get)
+- Objetivo: Ver cómo Express asocia URL exactas con respuestas.
+
+Prerrequisitos:
+- Servidor detenido.
+
+Pasos realizados:
+1) Cambié en `server.js` la ruta de `/page1` a `/pagina_uno`.
+2) Inicié el servidor.
+3) Probé: http://localhost:3000/page1
+4) Probé: http://localhost:3000/pagina_uno
+
+Observaciones:
+- /page1 → 404 (no debe funcionar).
+  
+<img width="2559" height="950" alt="image" src="https://github.com/user-attachments/assets/28299d19-df6d-43c6-994d-386b012de29b" />
+  Efectivamente la página no funciona habiendo hecho los cambios para luego ingresar a la dirección inicial, es decir ```http://localhost:3000/page1```
+  
+- /pagina_uno → devuelve el mismo contenido que antes (de page1.html).
+  <img width="2559" height="1002" alt="image" src="https://github.com/user-attachments/assets/7f35d76b-1228-4d79-b229-ca7868022703" />
+  Ahora si, la página descarga el contenido de page1.html
+
+Explicación
+  Express hace matching exacto de la URL declarada en app.get(...). Al renombrar la ruta, cambias el “camino” que devuelve el archivo. La capa de estáticos (app.use(express.static(...))) no crea la ruta /page1; solo sirve archivos por ruta directa de archivo (por ejemplo, /page1.html si existiera con ese nombre exacto).
+
+### Experimento 2 — Conexiones (socket.id) y desconexiones
+- Objetivo: Observar los IDs de conexión y desconexión de Socket.IO.
+
+Pasos realizados:
+1) Inicié servidor.
+2) Abrí http://localhost:3000/page1 → ID conectado: M6537eZbTS44EhoaAAAD
+3) Abrí http://localhost:3000/page2 → ID conectado: JTnmvTO3e0AtxWHbAAAF
+4) Cerré pestaña de page1 → ID desconectado: M6537eZbTS44EhoaAAAD (coincide con el de page1)
+5) Cerré pestaña de page2 → ID desconectado: JTnmvTO3e0AtxWHbAAAF
+
 
 
 
