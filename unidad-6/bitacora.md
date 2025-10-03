@@ -248,14 +248,71 @@ Al comentar la línea que emite “win2update” dentro del listener de “conne
 
 Acá básicamente lo que ocurre es que al mover la ventana de page2, en la consola de page1 se debería de ver el evento de actualización correspondiente con el payload que emite page2 (su currentPageData y el socket.id del emisor). Esto ocurre porque cada cliente, al detectar un cambio, emite su estado por Socket.IO y el servidor lo reenvía al resto de sockets conectados; el cliente receptor registra el log y actualiza su UI para reflejar el nuevo estado, lo mismo debe de ocurrir al revés.
 
-Experimento 4 
-<img width="803" height="625" alt="image" src="https://github.com/user-attachments/assets/c6e8c8a9-eda3-4385-9385-89dee9813a68" />
+### Experimento 4 
+
+<img width="1729" height="833" alt="image" src="https://github.com/user-attachments/assets/b98e665b-efcc-41af-a8d7-59fe169171f4" />
+
 
 ¿Qué puedes concluir y por qué? 
 
-Con este mensaje se puede ver que al esta parte de la función checkWindowPosition si se esta utilizando y se activa con el movimeinto de la pestaña o el cambiar el tamaño de esta.
+El problema estaba en cómo se asigna previousPageData. Como se estaba usando asignación por referencia en lugar de copia, las comparaciones nunca se detectan después del primer cambio. Cuando se corrige esto usando un spread ({...currentPageData}) o algo similar, el if se ejecuta en cada movimiento o redimensionamiento, porque ahora sí se está comparando contra los valores previos reales
 
 
-Experimento 5 
+### Experimento 5 
 Cambia el background(220) para que dependa de la distancia entre las ventanas. Puedes calcular la magnitud del resultingVector usando let distancia = resultingVector.mag(); y luego usa map() para convertir esa distancia a un valor de gris o color. background(map(distancia, 0, 1000, 255, 0)); (ajusta el rango 0-1000 según sea necesario). 
+
+Haz una Modificacion creativa adicional
+
+
+https://github.com/user-attachments/assets/00e64fa8-e549-49e7-a8c1-395585e673e5
+
+
+**Código cambiado en draw**
+
+```js
+function draw() {
+        let vector2 = createVector(remotePageData.x, remotePageData.y);
+        let vector1 = createVector(currentPageData.x, currentPageData.y);
+        let resultingVector = createVector(vector2.x - vector1.x, vector2.y - vector1.y);
+        let distancia = resultingVector.mag();
+        let gris = map(distancia, 0, 1000, 255, 0); // Ajusta el rango según sea necesario
+        background(gris);
+    
+    if (!isConnected) {
+        showStatus('Conectando al servidor...', color(255, 165, 0));
+        return;
+    }
+    
+    if (!hasRemoteData) {
+        showStatus('Esperando conexión de la otra ventana...', color(255, 165, 0));
+        return;
+    }
+    
+    if (!isFullySynced) {
+        showStatus('Sincronizando datos...', color(255, 165, 0));
+        return;
+    }
+
+    // Solo dibujar cuando esté completamente sincronizado
+    // Modificación creativa: el color del círculo central cambia según la distancia
+    let colorCentral = color(map(distancia, 0, 1000, 255, 0), 0, map(distancia, 0, 1000, 0, 255));
+    drawCircleColor(point2[0], point2[1], colorCentral);
+    checkWindowPosition();
+    stroke(50);
+    strokeWeight(20);
+    drawCircle(resultingVector.x + remotePageData.width / 2, resultingVector.y + remotePageData.height / 2);
+    line(point2[0], point2[1], resultingVector.x + remotePageData.width / 2, resultingVector.y + remotePageData.height / 2);
+// Dibuja un círculo con color personalizado
+function drawCircleColor(x, y, c) {
+    fill(c);
+    ellipse(x, y, 150, 150);
+}
+}
+```
+## Actividad 5
+
+
+https://github.com/user-attachments/assets/77d50dab-5368-4a9e-bfce-42a98791a379
+
+
 
