@@ -362,3 +362,24 @@ https://github.com/user-attachments/assets/484d16d6-e8b4-4b38-8adf-2f0f23e848f2
 https://github.com/KiwisCas/Actividad-SFI?tab=readme-ov-file
 
 
+## Calificación
+
+# Autoevaluación — Unidad 6
+
+| Actividad | Evidencia en bitácora                                                                                                                                                                                               | Defensa de la nota                                                                                                   | Estado   | Calificación |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------- | ------------ |
+| **1**     | Documenté la instalación de dependencias con `npm install` y la ejecución del servidor. Incluí explicación clara del propósito y evidencias de la consola.                                                          | Cumplí con todos los pasos y analicé lo que significan los mensajes.                                                 | Completa | 5            
+| **2**     | Expliqué con ejemplos prácticos cliente/servidor, analogías de internet, uso de protocolos, URLs y diferencias entre p5.js y eventos.                                                                  | No solo respondí, también amplié con ejemplos que considero son faciles de entender y que se usan mucho (restaurantes, aplicaciones y así).                      | Completa | 5            |
+| **3**     | Realicé experimentos con rutas, conexiones Socket.IO, broadcast vs emit, y el cambio de puerto. Puse capturas y explicaciones técnicas.                                                                           | Profundicé en cómo Express y Socket.IO manejan los eventos y conexiones.                                             | Completa | 5            |
+| **4**     | Analicé errores al detener el servidor, reconexiónes automáticas, sincronización inicial y correcciones en `previousPageData`. Implementé y expliqué modificaciones creativas con background dependiente de distancia. | Mostré comprensión del flujo cliente-servidor y depuración de errores.                                               | Completa | 5            |
+| **5**     | Diseñé una propuesta propia (interacción con caritas sincronizadas tipo semáforo). Incluí su arquitectura, contrato de eventos, videos y el repositorio.                                                                   | Aporté una solución creativa y bien fundamentada, mostrando la utilidad de Socket.IO en colaboración en tiempo real. | Completa | 5            |
+
+---
+
+### Nota propuesta: **5.0**
+
+**Defensa:** Realicé las 5 actividades completas con evidencias en la bitácora, análisis, pruebas y propuestas creativas. Además, pues acá está la autoevaluación entonces también cumplí jajajaja
+
+
+
+
