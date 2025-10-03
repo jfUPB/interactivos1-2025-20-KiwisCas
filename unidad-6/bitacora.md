@@ -150,10 +150,14 @@ Observaciones:
 - /page1 → 404 (no debe funcionar).
   
 <img width="2559" height="950" alt="image" src="https://github.com/user-attachments/assets/28299d19-df6d-43c6-994d-386b012de29b" />
-  Efectivamente la página no funciona habiendo hecho los cambios para luego ingresar a la dirección inicial, es decir ```http://localhost:3000/page1```
+
+    Efectivamente la página no funciona habiendo hecho los cambios para luego ingresar a la dirección inicial, es decir `http://localhost:3000/page1`
+  
   
 - /pagina_uno → devuelve el mismo contenido que antes (de page1.html).
-  <img width="2559" height="1002" alt="image" src="https://github.com/user-attachments/assets/7f35d76b-1228-4d79-b229-ca7868022703" />
+  
+<img width="2559" height="1002" alt="image" src="https://github.com/user-attachments/assets/7f35d76b-1228-4d79-b229-ca7868022703" />
+
   Ahora si, la página descarga el contenido de page1.html
 
 Explicación
@@ -168,6 +172,47 @@ Pasos realizados:
 3) Abrí http://localhost:3000/page2 → ID conectado: JTnmvTO3e0AtxWHbAAAF
 4) Cerré pestaña de page1 → ID desconectado: M6537eZbTS44EhoaAAAD (coincide con el de page1)
 5) Cerré pestaña de page2 → ID desconectado: JTnmvTO3e0AtxWHbAAAF
+
+Esto tiene su observación y es que cada conexión WebSocket tiene un socket.id único. Al cerrar la pestaña, el servidor recibe el evento disconnect y lo registra con el mismo ID.
+
+### Experimento 3 — Eventos win1update / win2update y broadcast
+- Objetivo: Ver qué evento llega con cada página y cómo difiere `socket.emit` vs `socket.broadcast.emit`.
+
+Pasos realizados:
+1) Servidor iniciado; abrí page1 y page2.
+2) Moví la ventana de page1 → vi en servidor: `Received win1update from ID: 10xHQ5KqKO6aes71AAAD Data: { x: 1043, y: 56, width:
+ 1239, height: 916 }
+Debug - Connected clients: 2, Page1: 1, Page2: 1, Synced: 2
+All clients are fully synced `
+3) Moví la ventana de page2 → vi: `Received win2update from ID: wMoua2zXNJM9ROfUAAAF Data: { x: 0, y: 161, width: 1262, height: 916 }
+Debug - Connected clients: 2, Page1: 1, Page2: 1, Synced: 2
+All clients are fully synced`
+4) Cambié en `server.js` los `socket.broadcast.emit('getdata', ...)` a `socket.emit('getdata', ...)`.
+5) Reinicié y repetí movimientos.
+
+Explicación
+- socket.emit envía el evento solo al cliente que originó el mensaje (el mismo socket).
+  <img width="2501" height="885" alt="image" src="https://github.com/user-attachments/assets/61ca766e-b072-4f25-b697-40f3ea6632a9" />
+  Acá podemos ver que page2 no se actualiza puesto que socket.emit envía el evento solo al mismo socket emisor; no llega a los demás clientes. Para sincronizar la otra pestaña necesitas socket.broadcast.emit, que envía a todos excepto al emisor. Restaura a broadcast.emit.
+  
+- socket.broadcast.emit envía a “todos menos al emisor”. Para sincronizar con la otra pestaña necesitas broadcast.
+  <img width="2042" height="870" alt="image" src="https://github.com/user-attachments/assets/98ceca00-9fb2-4a50-b747-865769f1ebcc" />
+
+### Experimento 4 — Puerto del servidor (listen)
+- Objetivo: Ver el impacto del puerto en la URL.
+
+Pasos realizados:
+1) Detuve servidor.
+2) Cambié `const port = 3000;` a `const port = 3001;`.
+3) Inicié servidor → confirmé mensaje “listening on 3001”.
+   
+   <img width="566" height="108" alt="image" src="https://github.com/user-attachments/assets/9ef5af27-c292-4371-9811-bfb0ce8db389" />
+   
+5) Probé http://localhost:3000/page1 y falló.
+   <img width="1232" height="842" alt="image" src="https://github.com/user-attachments/assets/3bd8824d-1872-4994-a798-6daf36416d9e" />
+6) Probé http://localhost:3001/page1 y ahora si, la página responde como debe de ser.
+   <img width="1228" height="913" alt="image" src="https://github.com/user-attachments/assets/58dce227-cbca-4c06-ac0d-b4b0635605c7" />
+
 
 
 
