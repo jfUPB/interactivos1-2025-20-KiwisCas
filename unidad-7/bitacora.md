@@ -72,6 +72,14 @@ La variable treshold (`const threshold = 5;`) se encarga de definir la distancia
 
 - Coloca en tu bitácora capturas de pantalla del sistema completo funcionando. Esto lo puedes hacer abriendo tanto el mobile como el desktop en tu computador y tomando una captura de pantalla de todos los involucrados (celular, computador y terminal).
 
+  
+
+https://github.com/user-attachments/assets/95a15116-0613-457e-b1bc-bbd56d5084dd
+
+
+<img width="1325" height="325" alt="image" src="https://github.com/user-attachments/assets/0a708523-ed8b-478f-8dc8-498fe7035d5d" />
+
+
 ## Actividad 3
 
 
@@ -192,5 +200,24 @@ sequenceDiagram
 
 ```
 ## Actividad 5
+IDEA: Inicialmente hice la propuesta de hacer un sistema tipo synthwave, que combinara los colores de Tron y utilizara los táctiles del celular para hacer explotar cajas dentro de este y que emitieran partículas que siguieran el ritmo de la canción, desafortunadamente el proyecto no salió en terminos de programación como esperaba debido a la complejidad que es programar aspectos en 3d con mis conocimientos en programación y debido a que las IAs tampoco fueron muy fáciles de usar debido a que realizaba la idea pero no de la forma como yo quería que funcionara, así que opté por cambiar tanto de tema musical como de idea de diseño, para este caso utilice el tema de **Give Life Back To Music** de Daft Punk, para este quise hacer algo más relacionado a la vida, por ejemplo que hubieran edificios y que estos cambiaran con el paso de la canción, adicional a esto quise implementar para el usuario la posibilidad de plantar flores y que este pudiese controlar la velocidad en la que estas crecen y que cuando terminen de crecer sigan el ritmo de la música, es un estilo que para mi giusto es más sencillo pero es mucho más realizable e incluso bonito
+
+Boceto de idea
+
+<img width="1118" height="624" alt="image" src="https://github.com/user-attachments/assets/39001ac8-e702-4605-a3fb-689be3526318" />
 
 Link al [GitHub](https://github.com/KiwisCas/ActividadInteractiva)
+
+
+
+## Autoevaluación
+
+| Actividad   | Evidencias / Comentarios                                                                                                | Calificación (1-5) | Justificación                                                                                                     |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| Actividad 1 | URL de Dev Tunnels, explicación de `npm install` y `npm start`, comportamiento observado con capturas                   | 5                  | Explicación clara y completa con evidencias visuales; demuestra comprensión del tema.                             |
+| Actividad 2 | Explicación de Dev Tunnels, funcionamiento conceptual, `touchMoved()` y `threshold`, comparación con IP local           | 5                  | Descripción técnica detallada y correcta, incluye justificación del uso de Dev Tunnels y optimización de eventos. |
+| Actividad 3 | Función `express.static`, flujo de mensajes táctiles, uso de `socket.broadcast.emit`, escenarios con múltiples clientes | 5                  | Flujo explicado paso a paso, correcta comprensión de eventos y roles de Socket.IO; evidencia textual clara.       |
+| Actividad 4 | Diagrama de secuencia Mermaid mostrando flujo de mensajes y resultado final                                             | 5                  | Diagrama claro y completo, refleja correctamente la interacción entre móvil, servidor y escritorio.               |
+| Actividad 5 | Idea interactiva, explicación de cambios de diseño, boceto y link a GitHub                                              | 5                  | Presenta un diseño detallado, justificación del cambio de enfoque y evidencia gráfica y de repositorio.           |
+
+
