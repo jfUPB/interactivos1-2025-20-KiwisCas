@@ -72,4 +72,122 @@ La variable treshold (`const threshold = 5;`) se encarga de definir la distancia
 
 - Coloca en tu bitácora capturas de pantalla del sistema completo funcionando. Esto lo puedes hacer abriendo tanto el mobile como el desktop en tu computador y tomando una captura de pantalla de todos los involucrados (celular, computador y terminal).
 
+## Actividad 3
 
+
+- ¿Cuál es la función principal de `express.static(‘public’)` en este servidor? ¿Cómo se compara con el uso de app.get(‘/ruta’, …) del servidor de la Unidad 6?
+
+`express.static(‘public’)` actúa como un *middleware* que sirve archivos estáticos (HTML, CSS, JS, imágenes, etc.) desde la carpeta public.
+  - Si en `public` hay por ejemplo, un `index.html`, una petición GET a `/` va a devolver automáticamente ese `index.html`
+  - También resuelve rutas como `/css/styles.css` devolviendo el archivo `public/css/styles.css`.
+  - Es rápido y está pensado para contenido fijo que no necesita de una lógica de servidor.
+
+Por otra parte, `app.get('/ruta', ...)` es un *manejador de ruta* que define el propio programador con el código: cuando llega una petición GET a `/ruta`, se ejecuta la función que se ponga y se puede generar contenido de una forma dinámica, acceder a bases de datos, devolver JSONs, entre muchos otros
+
+      
+
+- Explica detalladamente el flujo de un mensaje táctil: ¿Qué evento lo recibe el servidor? ¿Qué hace el servidor con él? ¿Qué evento lo envía el servidor al escritorio? ¿Por qué se usa socket.broadcast.emit en lugar de io.emit o socket.emit en este caso?
+
+1) Qué evento lo envía desde el móvil?
+
+    - Evento de p5.js: `touchMoved()` — se dispara cada vez que el dedo se mueve sobre el canvas.
+    - Dentro de `touchMoved()` el código genera un objeto `touchData`:
+```js
+let touchData = { type: 'touch', x: mouseX, y: mouseY };
+```
+-
+    - Y lo envía al servidor con Socket.IO:
+```js
+socket.emit('message', touchData);
+```
+
+2) ¿Qué evento lo recibe el servidor?
+
+    - En el servidor Node.js escucha:
+```js
+socket.on('message', (message) => { ... });
+```
+-
+    - Aquí `socket` es la conexión del cliente móvil que emitió el mensaje, y `message` es el objeto `{ type:'touch', x, y }`.
+
+3) ¿Qué hace el servidor con él?
+
+Dentro del handler:
+    - Lo registra para depuración:
+```js
+console.log('Received message =>', message);
+```
+-
+    - Lo retransmite a otros clientes con:
+```js
+socket.broadcast.emit('message', message);
+```
+
+- Es decir: guarda/loggea y reenvía el mismo payload a todos los demás sockets conectados (excepto el que lo envió).
+
+4) ¿Qué evento lo envía el servidor al escritorio?
+
+    - El servidor emite el mismo evento `'message'`:
+```js
+socket.broadcast.emit('message', message);
+```
+
+En el lado del escritorio (`desktop.js`) lo reciben con:
+```js
+socket.on('message', (data) => {
+  if (data && data.type === 'touch') {
+    circleX = data.x;
+    circleY = data.y;
+  }
+});
+```
+
+
+5) ¿Por qué `socket.broadcast.emit` y no `io.emit` o `socket.emit`?
+
+`socket.emit('message', ...)` solo envía al emisor (el celular).
+Acá no es útil porque el emisor ya conoce su propio toque y no necesita recibirlo otra vez.
+
+`io.emit('message', ...)` envía a todos los sockets, incluido el emisor.
+Esto causaría un eco/duplicado en el celular (recibiría su propio evento desde el servidor), y puede generar lógica redundante o parpadeos en la UI.
+
+`socket.broadcast.emit('message', ...)` envía a todos menos el socket que originó el mensaje.
+Este es ideal para sincronizar otros clientes (escritorios) sin devolver el evento al origen.
+
+Unas ventajas de usar `socket.broadcast.emit`:
+    - Evita duplicados en el origen.
+    - Reduce tráfico innecesario al emisor.
+    - Es la semántica correcta para “retransmitir a los demás”.
+
+- Si conectaras dos computadores de escritorio y un móvil a este servidor, y movieras el dedo en el móvil, ¿Quién recibiría el mensaje retransmitido por el servidor? ¿Por qué?
+
+Al mover el dedo en el móvil, solo los dos escritorios reciben el mensaje retransmitido por el servidor, porque `socket.broadcast.emit` excluye al emisor (el celular) y envía el evento a todos los demás clientes conectados.
+
+- ¿Qué información útil te proporcionan los mensajes console.log en el servidor durante la ejecución?
+
+Los mensajes console.log del servidor dan información de diagnóstico y seguimiento muy útil durante la ejecución del sistema, ya que te permiten saber qué está ocurriendo en tiempo real con las conexiones y los mensajes.
+
+
+## Actividad 4
+```mermaid
+sequenceDiagram
+    participant Celular as  CELULAR (mobile.js)
+    participant Servidor as SERVIDOR (Node.js + Socket.IO)
+    participant Escritorio as ESCRITORIO (desktop.js)
+
+    %% --- Flujo principal ---
+    Celular->>Celular: (1) Usuario mueve el dedo sobre el canvas
+    Celular->>Celular: (2) touchMoved() crea touchData {x:150, y:220}
+    Celular->>Servidor: (3) socket.emit("message", touchData)
+
+    Servidor->>Servidor: (4) socket.on("message") recibe datos
+    Servidor->>Servidor: (5) console.log("Received message => {x:150, y:220}")
+    Servidor-->>Escritorio: (6) socket.broadcast.emit("message", message)
+
+    Escritorio->>Escritorio: (7) socket.on("message", data)
+    Escritorio->>Escritorio: (8) Actualiza posición del círculo (x=150, y=220)
+    Escritorio->>Escritorio: (9) draw() dibuja círculo en nueva posición
+
+    Note over Celular, Escritorio: Resultado final: El círculo rojo se mueve en el escritorio siguiendo el toque del usuario en el Celular.
+
+```
