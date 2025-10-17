@@ -191,3 +191,6 @@ sequenceDiagram
     Note over Celular, Escritorio: Resultado final: El círculo rojo se mueve en el escritorio siguiendo el toque del usuario en el Celular.
 
 ```
+## Actividad 5
+
+Link al [GitHub](https://github.com/KiwisCas/ActividadInteractiva)
