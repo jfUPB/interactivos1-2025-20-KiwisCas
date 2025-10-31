@@ -159,3 +159,7 @@ https://github.com/user-attachments/assets/83c36aef-e122-4094-8c8a-e208041d6a27
 | **Presentación y evidencias**            | **4.5**                | Entregué video, imagen y repositorio en GitHub, pero me faltó incluir capturas o ejemplos más claros de las pruebas.                                |
 | **Autoevaluación y reflexión**           | **5.0**                | Fui crítico y reflexivo con mi propio trabajo, reconociendo los puntos fuertes y los pendientes.                                                    |
 
+
+## defensa
+
+Me pongo 4.0 porque logré cumplir la mayor parte de los objetivos propuestos: el sistema es funcional con el móvil, el concepto está bien fundamentado y la documentación es completa. Sin embargo, reconozco que me faltaron los bocetos de las interfaces, mayor detalle visual en el proceso y la integración total del micro:bit, lo que impidió que el proyecto estuviera al 100%. Aun así, considero que el resultado demuestra comprensión técnica, creatividad y una buena aplicación del concepto.
