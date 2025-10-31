@@ -151,10 +151,11 @@ https://github.com/user-attachments/assets/83c36aef-e122-4094-8c8a-e208041d6a27
 | **Referentes visuales**                  | **5.0**                | Los referentes fueron adecuados y aportaron mucho a la estética final. Elegí bien las influencias y las conecté con mi propuesta.                   |
 | **Concepto de las visuales**             | **4.5**                | El concepto “Resonancias” está bien planteado y coherente, pero podría haberlo profundizado más en su relación con la experiencia del usuario.      |
 | **Control con móvil y micro:bit**        | **3.5**                | El control con el móvil funcionó bien, pero el micro:bit no se integró correctamente, lo que limita el objetivo completo del sistema.               |
-| **Bocetos e interfaces**                 | **2.5**                | No incluí bocetos visuales ni diagramas de interfaz, algo importante para mostrar el diseño previo y la planificación visual.                       |
+| **Bocetos e interfaces**                 | **2.5**                | No incluí bocetos visuales , algo importante para mostrar el diseño previo y la planificación visual.                       |
 | **Diagrama del sistema**                 | **5.0**                | El diagrama técnico es claro y comunica bien cómo se conectan todos los componentes.                                                                |
 | **Documentación del proceso**            | **4.5**                | Documenté todas las fases, aunque podría haber incluido más capturas del proceso intermedio.                                                        |
 | **Códigos incluidos**                    | **5.0**                | Están todos los archivos principales y las funciones explicadas. El código refleja bien lo aprendido durante el proceso.                            |
 | **Funcionamiento general (actividad 2)** | **3.5**                | El sistema es funcional entre el celular y el visualizador, pero no completamente terminado por la falta del micro:bit y algunos detalles visuales. |
 | **Presentación y evidencias**            | **4.5**                | Entregué video, imagen y repositorio en GitHub, pero me faltó incluir capturas o ejemplos más claros de las pruebas.                                |
 | **Autoevaluación y reflexión**           | **5.0**                | Fui crítico y reflexivo con mi propio trabajo, reconociendo los puntos fuertes y los pendientes.                                                    |
+
